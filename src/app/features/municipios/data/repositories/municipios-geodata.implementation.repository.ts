@@ -15,6 +15,9 @@ export class MunicipiosGeoDataImplementationRepository
     new MunicipiosGeodataMapper();
 
   constructor(private http: HttpClient) {}
+  getCSVData(vendorFile: string): Observable<any> {
+    return this.http.get(`${environment.urlFileMunicipios}${vendorFile}.csv`);
+  }
 
   private getStateName(stateName: string): string {
     switch (stateName.toLowerCase()) {
