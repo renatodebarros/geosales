@@ -1,1 +1,50 @@
-<p>expansao-vendas works!</p>
+<div class="grid">
+    <div class="col-12 bg-blue-500 mb-5">
+        <label class="text-bold text-white">Vendedor: {{ nomeVendedor }}</label>
+    </div>
+    <p-accordion [multiple]="true" class="p-accordion-blue" iconPos="start">
+        <p-accordionTab [selected]="true">
+            <p-header>
+                <h4 class="text-white">{{ titulo }}</h4>
+            </p-header>
+            <p-dataView
+                [value]="municipios"
+                [layout]="dataviewLayout"
+                emptyMessage="Nenhum registro encontrado"
+                [rows]="5"
+                [paginator]="false"
+            >
+                <ng-template let-status pTemplate="listItem">
+                    <label>
+                        <strong
+                            >{{ status.id }} -
+                            {{ status.descricaoResumo }}</strong
+                        >
+                    </label>
+                </ng-template>
+                <ng-template let-status pTemplate="gridItem">
+                    <div style="padding: 0.5em" class="col-4">
+                        <strong
+                            >{{ status.id }} -
+                            {{ status.descricaoResumo }}</strong
+                        >
+                    </div>
+                </ng-template>
+            </p-dataView>
+        </p-accordionTab>
+        <p-accordionTab [selected]="true">
+            <p-header>
+                <h4 class="text-white">{{ nomeVendedor }}</h4>
+            </p-header>
+            <p-panel>
+                <p-gmap
+                    #gmap
+                    [options]="options"
+                    [overlays]="overlays"
+                    [style]="{ width: '800', height: '500px' }"
+                    (onMapReady)="setMap($event)"
+                ></p-gmap>
+            </p-panel>
+        </p-accordionTab>
+    </p-accordion>
+</div>

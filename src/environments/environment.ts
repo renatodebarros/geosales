@@ -3,13 +3,13 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
-  googleMapsKey: 'AIzaSyBJUgLhMd5M_-L2-0oBOvOsLg6QuQMe1Fk',
-  urlFileMunicipios: 'http://localhost:8080/municipios',
-  urlFilePrevisao: 'http://localhost:8080/previsao',
-  urlVendedores: 'http://localhost:8080/vendedores',
-  geoJsonPath: './core/shared/json/geojson/geojs-',
-  version: '1.2.7',
+    production: false,
+    googleMapsKey: "AIzaSyBJUgLhMd5M_-L2-0oBOvOsLg6QuQMe1Fk",
+    urlFileMunicipios: "http://localhost:8081/arqdrone/municipios/",
+    urlFilePrevisao: "http://localhost:8081/arqdrone/previsao/",
+    urlVendedores: "http://localhost:8081/arqdrone/vendedores/",
+    geoJsonPath: "./assets/json/geojson/geojs-",
+    version: "1.2.7",
 };
 
 /*
