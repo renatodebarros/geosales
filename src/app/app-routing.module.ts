@@ -9,6 +9,13 @@ const routes: Routes = [
                 (m) => m.MunicipiosModule
             ),
     },
+    {
+        path: "sistematica",
+        loadChildren: () =>
+            import(
+                "./features/sistematica/presentation/sistematica.module"
+            ).then((m) => m.SistematicaModule),
+    },
 ];
 
 @NgModule({

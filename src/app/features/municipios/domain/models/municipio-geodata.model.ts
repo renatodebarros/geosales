@@ -1,17 +1,17 @@
-export interface MunicipioGeoDataModel {
+export interface IMunicipioGeoDataModel {
     type: string;
-    properties: PropertyModel;
-    geometry: GeometryModel;
+    properties: IPropertyModel;
+    geometry: IGeometryModel;
     hasSalesMan?: boolean | null;
     features: Array<FetureModel>;
 }
 
-export interface GeometryModel {
+export interface IGeometryModel {
     type: string;
     coordinates: Array<Array<number[]>>;
 }
 
-export interface PropertyModel {
+export interface IPropertyModel {
     id: string;
     name: string;
     description: string;
@@ -20,6 +20,6 @@ export interface PropertyModel {
 
 export interface FetureModel {
     type: string;
-    properties: PropertyModel;
-    geometry: GeometryModel;
+    properties: IPropertyModel;
+    geometry: IGeometryModel;
 }

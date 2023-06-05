@@ -58,6 +58,7 @@ import { ToolbarModule } from "primeng/toolbar";
 import { TooltipModule } from "primeng/tooltip";
 import { TreeModule } from "primeng/tree";
 import { VirtualScrollerModule } from "primeng/virtualscroller";
+import { MessageService } from "primeng/api";
 
 @NgModule({
     declarations: [HeaderComponent],
@@ -119,6 +120,7 @@ import { VirtualScrollerModule } from "primeng/virtualscroller";
         TreeModule,
         VirtualScrollerModule,
     ],
+    providers: [MessageService],
     exports: [
         CommonModule,
         FormsModule,

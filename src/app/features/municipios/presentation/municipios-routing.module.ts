@@ -12,6 +12,10 @@ const routes: Routes = [
         path: "expansao/:id",
         component: ExpansaoVendasComponent,
     },
+    {
+        path: "vendas/:id",
+        component: VendasMunicipioComponent,
+    },
 ];
 
 @NgModule({

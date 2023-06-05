@@ -1,15 +1,15 @@
 import { Mapper } from "src/app/core/shared/utils/mapper";
-import { MunicipioGeoDataModel } from "../../../domain/models/municipio-geodata.model";
-import { MunicipioGeoDataEntity } from "../../entities/municipio-geodata.entity";
+import { IMunicipioGeoDataModel } from "../../../domain/models/municipio-geodata.model";
+import { IMunicipioGeoDataEntity } from "../../entities/municipio-geodata.entity";
 
 export class MunicipiosGeodataMapper
     implements
-        Mapper<Array<MunicipioGeoDataEntity>, Array<MunicipioGeoDataModel>>
+        Mapper<Array<IMunicipioGeoDataEntity>, Array<IMunicipioGeoDataModel>>
 {
-    mapFrom(param: MunicipioGeoDataEntity[]): MunicipioGeoDataModel[] {
+    mapFrom(param: IMunicipioGeoDataEntity[]): IMunicipioGeoDataModel[] {
         return param;
     }
-    mapTo(param: MunicipioGeoDataModel[]): MunicipioGeoDataEntity[] {
+    mapTo(param: IMunicipioGeoDataModel[]): IMunicipioGeoDataEntity[] {
         return param;
     }
 }

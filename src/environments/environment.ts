@@ -5,10 +5,13 @@
 export const environment = {
     production: false,
     googleMapsKey: "AIzaSyBJUgLhMd5M_-L2-0oBOvOsLg6QuQMe1Fk",
-    urlFileMunicipios: "http://localhost:8081/arqdrone/municipios/",
-    urlFilePrevisao: "http://localhost:8081/arqdrone/previsao/",
-    urlVendedores: "http://localhost:8081/arqdrone/vendedores/",
-    geoJsonPath: "./assets/json/geojson/geojs-",
+    urlFileMunicipios: "http://localhost:8081/arqdrone/Municipios/",
+    urlFilePrevisao: "http://localhost:8081/arqdrone/Previsao/",
+    urlFileVendedores: "http://localhost:8081/arqdrone/Vendedores/",
+    urlFileSistematica: "http://localhost:8081/arqdrone/Sistematica/",
+    urlFileClientes: "http://localhost:8081/arqdrone/Clientes/",
+    geoJsonPath: "./assets/json/geojson/",
+    googleGeoData: "https://maps.googleapis.com/maps/api/geocode/json?",
     version: "1.2.7",
 };
 

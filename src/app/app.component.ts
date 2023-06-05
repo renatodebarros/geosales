@@ -9,7 +9,7 @@ import { PrimeNGConfig } from "primeng/api";
 export class AppComponent implements OnInit {
     constructor(private primengConfig: PrimeNGConfig) {}
     ngOnInit(): void {
-        document.documentElement.style.fontSize = "10px";
+        document.documentElement.style.fontSize = "11px";
         this.setPrimeNgConfig();
     }
 

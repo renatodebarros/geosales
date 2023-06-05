@@ -1,11 +1,22 @@
+<p-messages
+    [showTransitionOptions]="'0ms'"
+    [hideTransitionOptions]="'0ms'"
+></p-messages>
 <div class="grid">
-    <div class="col-12 bg-blue-500 mb-5">
+    <div class="col-12"></div>
+    <div *ngIf="municipios.length > 0" class="col-12 bg-blue-500 mb-5">
         <label class="text-bold text-white">Vendedor: {{ nomeVendedor }}</label>
     </div>
-    <p-accordion [multiple]="true" class="p-accordion-blue" iconPos="start">
+    <p-accordion
+        *ngIf="municipios.length > 0"
+        [multiple]="true"
+        class="p-accordion-blue"
+        [style]="{ 'min-width': '100%' }"
+        iconPos="start"
+    >
         <p-accordionTab [selected]="true">
             <p-header>
-                <h4 class="text-white">{{ titulo }}</h4>
+                <span class="text-white text-2xl">{{ titulo }}</span>
             </p-header>
             <p-dataView
                 [value]="municipios"
@@ -34,9 +45,25 @@
         </p-accordionTab>
         <p-accordionTab [selected]="true">
             <p-header>
-                <h4 class="text-white">{{ nomeVendedor }}</h4>
+                <span class="text-white text-2xl">{{ nomeVendedor }}</span>
             </p-header>
             <p-panel>
+                <div
+                    *ngIf="carregando"
+                    class="grid flex align-items-center justify-content-center"
+                >
+                    <div
+                        class="col-12 flex align-items-center justify-content-center"
+                    >
+                        <span
+                            class="scalein animation-duration-1000 animation-iteration-infinite text-center text-2xl text-bold"
+                            >Aguarde carregegando mapa dos municípios...</span
+                        >
+                    </div>
+                    <div class="col-12">
+                        <p-progressBar mode="indeterminate"></p-progressBar>
+                    </div>
+                </div>
                 <p-gmap
                     #gmap
                     [options]="options"

@@ -1,17 +1,17 @@
-export interface MunicipioGeoDataEntity {
+export interface IMunicipioGeoDataEntity {
     type: string;
-    properties: PropertyEntity;
-    geometry: GeometryEntity;
+    properties: IPropertyEntity;
+    geometry: IGeometryEntity;
     hasSalesMan?: boolean | null;
     features: any;
 }
 
-export interface GeometryEntity {
+export interface IGeometryEntity {
     type: string;
     coordinates: Array<Array<number[]>>;
 }
 
-export interface PropertyEntity {
+export interface IPropertyEntity {
     id: string;
     name: string;
     description: string;
