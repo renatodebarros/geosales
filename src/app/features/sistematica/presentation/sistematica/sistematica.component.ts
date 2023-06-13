@@ -15,6 +15,7 @@ import {
     MapStyleApple,
     MapStyleSilver,
 } from "src/app/core/shared/utils/map-styles/map-styles.const";
+import { InfoWindowDataSource } from "../../data/data-sources/infowindow-content.datasource";
 
 declare var google: any;
 @Component({
@@ -28,7 +29,7 @@ export class SistematicaComponent implements OnInit {
     bounds: any;
     carregando: boolean = false;
     dataviewLayout: string = "grid";
-    resumo: any;
+    resumo: Array<RollupModel>;
     map: any;
     nomeVendedor: string;
     options: any;
@@ -116,38 +117,8 @@ export class SistematicaComponent implements OnInit {
         let address: string = `${item.endereco}-${item.bairro},${item.municipio}-${item.uf}`;
         address = address.replace(/ /g, "+");
 
-        var customer: string = `Sequência: ${item.item} - ${item.tipo} : ${item.nomeCliente}`;
-
         const lat: number = geoData.results[0].geometry.location.lat;
         const lng: number = geoData.results[0].geometry.location.lng;
-
-        let contentString: string = `<div id="content">
-        <div id="siteNotice">
-        <div id="siteNotice">
-        <div id="siteNotice">
-        </div>
-        <h4 id="firstHeading" class="firstHeading"> ${customer}</h4>
-        <div id="bodyContent">
-        <p>Latitude: ${lat}, Longitude: ${lng}</p>
-        <p>Status: ${item.status}  </p>
-        <p>Ultima Compra: ${item.ultimaCompra}</p>
-        <p>Dt. Prev. Inativação:  ${item.dtPrevisaoInativacao}</p>
-        <p>Dias Inativado:  ${ConvertNumber.toLocaleBr(
-            item.diasInativado,
-            0,
-            2
-        )}</p>
-        <p>Dt. Cadastro: ${item.dtCadastro}</p>
-        <p>Endereço:  ${item.endereco},${item.bairro} -  ${item.municipio} -  ${
-            item.uf
-        }</p>
-        <p>Detalhes: <a href="assets/images/customers/${item.cliente}${
-            item.loja
-        }.jpg" target="_blank"><b>Exibir Local<b/></a> 
-        &nbsp;&nbsp;<a href="https://www.google.com.br/maps/place/${address}/@[${lat}],[${lng}]" target="_blank"><b>Exibir no Google<b/></a> '
-      </p>
-     </div>
- </div>`;
 
         let titleAddress = `${geoData.results[0].address_components[1].short_name}, \n ${geoData.results[0].address_components[0].short_name} 
          - ${geoData.results[0].address_components[2].short_name}\n;`;
@@ -176,7 +147,7 @@ export class SistematicaComponent implements OnInit {
         });
 
         let infowindow = new google.maps.InfoWindow({
-            content: contentString,
+            content: InfoWindowDataSource.getContent(item),
         });
 
         marker.addListener("click", function () {
