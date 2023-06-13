@@ -1,4 +1,4 @@
-import { GoogleGeoDataModel } from "src/app/core/shared/utils/domain/google-geodata.model";
+import { GoogleGeoDataModel } from "src/app/core/shared/utils/domain/model/google-geodata.model";
 
 export interface SistematicaModel {
     bairro: string;

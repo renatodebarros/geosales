@@ -6,6 +6,7 @@ import { HttpClientModule } from "@angular/common/http";
 
 import { SistematicaRoutingModule } from "./sistematica-routing.module";
 import { SharedModule } from "src/app/core/shared/shared.module";
+import { StatusColorPipe } from "src/app/core/shared/utils/pipes/status-color.pipe";
 
 @NgModule({
     declarations: [SistematicaComponent],
@@ -16,5 +17,6 @@ import { SharedModule } from "src/app/core/shared/shared.module";
         SharedModule,
         SistematicaRoutingModule,
     ],
+    providers: [StatusColorPipe],
 })
 export class SistematicaModule {}

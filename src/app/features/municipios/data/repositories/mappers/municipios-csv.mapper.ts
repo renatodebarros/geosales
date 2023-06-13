@@ -1,4 +1,4 @@
-import { ParseCSV } from "src/app/core/shared/utils/data-source/parse-csv";
+import { ParseCSV } from "src/app/core/shared/utils/data/data-source/parse-csv";
 import { MapperOneWay } from "src/app/core/shared/utils/mapper";
 import { MunicipioModel } from "../../../domain/models/municipios.model";
 import { MunicipioEntity } from "../../entities/municipios.entity";

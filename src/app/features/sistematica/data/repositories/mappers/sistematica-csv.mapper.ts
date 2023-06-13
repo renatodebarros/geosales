@@ -1,7 +1,7 @@
 import { MapperOneWay } from "src/app/core/shared/utils/mapper";
 import { SistematicaModel } from "../../../domain/models/sistematica.model";
 import { SistematicaEntity } from "../../entities/sistematica.entity";
-import { ParseCSV } from "src/app/core/shared/utils/data-source/parse-csv";
+import { ParseCSV } from "src/app/core/shared/utils/data/data-source/parse-csv";
 
 export class SistematicaCsvMapper
     implements MapperOneWay<string, Array<SistematicaModel>>
