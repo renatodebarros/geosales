@@ -6,18 +6,16 @@ import { SistematicaRepository } from "../../domain/repositories/sistematica.rep
 
 import * as mappers from "./mappers/mappers.index";
 import { SistematicaModel } from "../../domain/models/sistematica.model";
-import { SrvRecord } from "dns";
 import { GoogleGeoDataEntity } from "src/app/core/shared/utils/entity/google-geodata.entity";
 import { GoogleGeoDataModel } from "src/app/core/shared/utils/domain/google-geodata.model";
-import { InfoWindowDataSource } from "../data-sources/infowindow-content.datasource";
-import { isMaster } from "cluster";
+import { geoDataMapper } from "./mappers/mappers.index";
 
 @Injectable({ providedIn: "root" })
 export class SistematicaGeoDataImplementationRepository
     implements SistematicaRepository
 {
     constructor(private http: HttpClient) {}
-    getCSVData(vendorFile: string): Observable<any> {
+    getCSVData(vendorFile: string): Observable<Array<SistematicaModel>> {
         let header = new HttpHeaders({
             Accept: "text/csv; charset=utf-8,%EF%BB%BF",
             "Content-Type": "text/csv; charset=utf-8,%EF%BB%BF",
@@ -28,31 +26,16 @@ export class SistematicaGeoDataImplementationRepository
                 headers: header,
                 responseType: "text" as "json",
             })
-            .pipe(
-                map(mappers.sistematicaCSVMapper.mapFrom),
-                switchMap((result: Array<SistematicaModel>) => {
-                    console.log("Switch Mapel", result);
-
-                    result.forEach((item: SistematicaModel) => {
-                        let address: string = `${item.endereco}+${item.bairro}+${item.uf}`;
-
-                        this.getGeoPostalCode(address).subscribe(
-                            (result: GoogleGeoDataModel) => {
-                                item.googleGeoData = result;
-                            }
-                        );
-                    });
-
-                    return result;
-                })
-            );
+            .pipe(map(mappers.sistematicaCSVMapper.mapFrom));
     }
 
-    private getGeoPostalCode(params: string): Observable<GoogleGeoDataEntity> {
-        return this.http.get<GoogleGeoDataEntity>(
-            `${environment.googleGeoData}key=${
-                environment.googleMapsKey
-            }&address=${params.replace(" ", "+")}`
-        );
+    getGeoPostalCode(params: string): Observable<GoogleGeoDataModel> {
+        return this.http
+            .get<GoogleGeoDataEntity>(
+                `${environment.googleGeoData}key=${
+                    environment.googleMapsKey
+                }&address=${params.replace(" ", "+")}`
+            )
+            .pipe(map(geoDataMapper.mapFrom));
     }
 }

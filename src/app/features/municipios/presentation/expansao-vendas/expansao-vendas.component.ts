@@ -30,7 +30,7 @@ export class ExpansaoVendasComponent implements OnInit {
     options: any;
     overlays: any;
     titulo: string = null;
-
+    tituloMapa: string = "MAPA EXPLORATÓRIO DE VENDAS - EXPANSÃO";
     constructor(
         private municipioPolygnonUseCase: MunicipioPolygnonUseCase,
         private municipiosCsvUseCase: MunicipiosCsvUseCase,

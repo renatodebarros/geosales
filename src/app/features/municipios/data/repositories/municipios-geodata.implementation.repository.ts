@@ -16,7 +16,7 @@ export class MunicipiosGeoDataImplementationRepository
     getCSVData(vendorFile: string): Observable<any> {
         let header = new HttpHeaders({
             Accept: "text/csv; charset=utf-8,%EF%BB%BF",
-            "Content-Type": "text/csv; charset=utf-8,%EF%BB%BF",
+            "Content-Type": "text/csv; charset=utf-8",
         });
 
         return this.http

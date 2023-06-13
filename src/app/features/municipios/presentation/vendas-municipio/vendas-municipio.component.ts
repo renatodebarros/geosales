@@ -33,6 +33,7 @@ export class VendasMunicipioComponent {
     options: any;
     overlays: any;
     titulo: string = null;
+    tituloMapa: string = "MAPA EXPLORATÓRIO DE VENDAS - LOCALIZAÇÃO";
 
     constructor(
         private activatedRoute: ActivatedRoute,

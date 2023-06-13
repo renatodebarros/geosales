@@ -4,7 +4,7 @@ import { MapOptionsConfig } from "src/app/core/shared/utils/map-options-config";
 import { ActivatedRoute, Params } from "@angular/router";
 import { MessageService } from "primeng/api";
 import { SistematicaModel } from "../../domain/models/sistematica.model";
-
+import * as d3 from "d3-array";
 @Component({
     selector: "app-sistematica",
     templateUrl: "./sistematica.component.html",
@@ -13,14 +13,15 @@ import { SistematicaModel } from "../../domain/models/sistematica.model";
 export class SistematicaComponent implements OnInit {
     private vendorFile: string;
 
+    bounds: any;
     carregando: boolean = false;
     dataviewLayout: string = "grid";
-    estados: Array<any> = [];
+    resumo: Array<{ key: string; value: number }> = [];
     map: any;
     nomeVendedor: string;
     options: any;
     overlays: any;
-    titulo: string = null;
+    titulo: string = "MAPA EXPLORATÓRIO DE VENDAS - SISTEMÁTICA";
 
     constructor(
         private sistematicaCsvUseCase: SistematicaCSVUseCase,
@@ -40,10 +41,10 @@ export class SistematicaComponent implements OnInit {
     private getSistematica(): void {
         this.sistematicaCsvUseCase
             .execute(this.vendorFile)
-            .subscribe((result: Array<SistematicaModel>) => {
-                console.log(result);
-            });
+            .subscribe((result: Array<SistematicaModel>) => {});
     }
+
+    private summaryData(data: Array<SistematicaModel>): void {}
 
     ngOnInit(): void {
         try {

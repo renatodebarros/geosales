@@ -59,9 +59,11 @@ import { TooltipModule } from "primeng/tooltip";
 import { TreeModule } from "primeng/tree";
 import { VirtualScrollerModule } from "primeng/virtualscroller";
 import { MessageService } from "primeng/api";
+import { StatusDescriptionPipe } from "./utils/pipes/status-description.pipe";
+import { StatusColorPipe } from "./utils/pipes/status-color.pipe";
 
 @NgModule({
-    declarations: [HeaderComponent],
+    declarations: [HeaderComponent, StatusDescriptionPipe, StatusColorPipe],
     imports: [
         CommonModule,
         FormsModule,
@@ -179,6 +181,8 @@ import { MessageService } from "primeng/api";
         TreeModule,
         VirtualScrollerModule,
         HeaderComponent,
+        StatusDescriptionPipe,
+        StatusColorPipe,
     ],
 })
 export class SharedModule {}

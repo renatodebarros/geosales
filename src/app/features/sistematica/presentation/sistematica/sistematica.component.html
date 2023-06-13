@@ -1,1 +1,71 @@
-<p>sistematica works!</p>
+<p-messages
+    [showTransitionOptions]="'0ms'"
+    [hideTransitionOptions]="'0ms'"
+></p-messages>
+<div class="grid">
+    <div class="col-12"></div>
+    <div class="col-12 bg-blue-500 mb-5">
+        <label class="text-bold text-white">Vendedor: {{ nomeVendedor }}</label>
+    </div>
+    <p-accordion
+        *ngIf="resumo.length > 0"
+        [multiple]="true"
+        class="p-accordion-blue"
+        [style]="{ 'min-width': '100%' }"
+        iconPos="start"
+    >
+        <p-accordionTab [selected]="true">
+            <p-header>
+                <span class="text-white text-2xl">{{ titulo }}</span>
+            </p-header>
+            <p-dataView
+                [value]="resumo"
+                [layout]="dataviewLayout"
+                emptyMessage="Nenhum registro encontrado"
+                [rows]="5"
+                [paginator]="false"
+            >
+                <ng-template let-status pTemplate="listItem">
+                    <label>
+                        <strong>{{ status.key }} - {{ status.value }}</strong>
+                    </label>
+                </ng-template>
+                <ng-template let-status pTemplate="gridItem">
+                    <div style="padding: 0.5em" class="col-4">
+                        <strong>{{ status.key }} - {{ status.value }}</strong>
+                    </div>
+                </ng-template>
+            </p-dataView>
+        </p-accordionTab>
+        <p-accordionTab [selected]="true">
+            <p-header>
+                <span class="text-white text-2xl">{{ tituloMapa }}</span>
+            </p-header>
+            <p-panel>
+                <div
+                    *ngIf="carregando"
+                    class="grid flex align-items-center justify-content-center"
+                >
+                    <div
+                        class="col-12 flex align-items-center justify-content-center"
+                    >
+                        <span
+                            class="scalein animation-duration-1000 animation-iteration-infinite text-center text-2xl text-bold"
+                            >Aguarde carregegando mapa de sistemática...</span
+                        >
+                    </div>
+                    <div class="col-12">
+                        <p-progressBar mode="indeterminate"></p-progressBar>
+                    </div>
+                </div>
+                <!-- <p-gmap
+                    #gmap
+                    [options]="options"
+                    [overlays]="overlays"
+                    [style]="{ width: '800', height: '500px' }"
+                    (onMapReady)="setMap($event)"
+                ></p-gmap> -->
+            </p-panel>
+        </p-accordionTab>
+    </p-accordion>
+</div>
