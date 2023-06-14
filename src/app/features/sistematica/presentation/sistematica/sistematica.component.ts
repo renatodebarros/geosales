@@ -7,7 +7,6 @@ import { SistematicaModel } from "../../domain/models/sistematica.model";
 import * as d3 from "d3-array";
 import { finalize } from "rxjs";
 import { RollupModel } from "src/app/core/shared/utils/domain/model/rollup.model";
-import { ConvertNumber } from "src/app/core/shared/utils/converters/converter-number";
 import { GeoDataUseCase } from "src/app/core/shared/utils/domain/geodata.usecase";
 import { GoogleGeoDataModel } from "src/app/core/shared/utils/domain/model/google-geodata.model";
 import { StatusColorPipe } from "src/app/core/shared/utils/pipes/status-color.pipe";
@@ -70,18 +69,6 @@ export class SistematicaComponent implements OnInit {
             });
     }
 
-    ngOnInit(): void {
-        try {
-            this.getSistematica();
-        } catch {
-            this.messageService.add({
-                severity: "error",
-                summary: "Arquivo",
-                detail: "Arquivo não localizado",
-            });
-        }
-    }
-
     private setPlaces(): void {
         this.sistematicaData.forEach((item: SistematicaModel) => {
             let address: string = `${item.endereco}-${item.bairro},${item.municipio}-${item.uf}`;
@@ -94,20 +81,6 @@ export class SistematicaComponent implements OnInit {
                 });
         });
         this.carregando = false;
-    }
-
-    private summaryData(): void {
-        this.resumo = Array.from(
-            d3.rollup(
-                this.sistematicaData,
-                (v) => v.length,
-                (d) => d.status
-            ),
-            ([key, value]) => ({
-                key: key,
-                value: value,
-            })
-        );
     }
 
     private setMarker(
@@ -161,15 +134,6 @@ export class SistematicaComponent implements OnInit {
         this.map.panToBounds(this.bounds);
     }
 
-    setMap(event: any): void {
-        this.carregando = true;
-        this.map = event.map;
-        this.setStyles(event);
-        setTimeout(() => {
-            this.setPlaces();
-        }, 6000);
-    }
-
     private setStyle(map: any): void {
         map.data.setStyle(function (feature) {
             let id: number = feature.getProperty("name");
@@ -181,6 +145,42 @@ export class SistematicaComponent implements OnInit {
                 fillOpacity: 0.15,
             };
         });
+    }
+
+    private summaryData(): void {
+        this.resumo = Array.from(
+            d3.rollup(
+                this.sistematicaData,
+                (v) => v.length,
+                (d) => d.status
+            ),
+            ([key, value]) => ({
+                key: key,
+                value: value,
+            })
+        );
+    }
+
+    ngOnInit(): void {
+        try {
+            this.getSistematica();
+        } catch {
+            this.messageService.add({
+                severity: "error",
+                summary: "Arquivo",
+                detail: "Arquivo não localizado",
+            });
+        }
+    }
+
+    setMap(event: any): void {
+        this.carregando = true;
+        this.map = event.map;
+        this.setStyles(event);
+        setTimeout(() => {
+            this.setPlaces();
+        }, 6000);
+        this.setStyle(event.map);
     }
 
     setStyles(event): void {

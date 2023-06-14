@@ -16,6 +16,13 @@ const routes: Routes = [
                 "./features/sistematica/presentation/sistematica.module"
             ).then((m) => m.SistematicaModule),
     },
+    {
+        path: "previsao",
+        loadChildren: () =>
+            import("./features/previsao/presentation/previsao.module").then(
+                (m) => m.PrevisaoModule
+            ),
+    },
 ];
 
 @NgModule({
