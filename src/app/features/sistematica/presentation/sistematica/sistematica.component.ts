@@ -67,8 +67,17 @@ export class SistematicaComponent implements OnInit {
                     this.summaryData();
                 })
             )
-            .subscribe((result: Array<SistematicaModel>) => {
-                this.sistematicaData = result;
+            .subscribe({
+                next: (result: Array<SistematicaModel>) => {
+                    this.sistematicaData = result;
+                },
+                error: (error: any) => {
+                    this.messageService.add({
+                        severity: "error",
+                        summary: "Erro",
+                        detail: `Arquivo não localizado no endereço ${error.url}`,
+                    });
+                },
             });
     }
 

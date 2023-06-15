@@ -7,6 +7,9 @@ import { MunicipiosCsvUseCase } from "../domain/usecases/municipio-csv.usecase";
 import { GeoDataUseCase } from "src/app/core/shared/utils/domain/geodata.usecase";
 import { GeoDataRepository } from "src/app/core/shared/utils/domain/repository/geodata.repository";
 import { GeoDataImplementationRepository } from "src/app/core/shared/utils/data/repository/geodata.implementation.repository";
+import { ExpansaoDataRepository } from "../domain/repositories/expansao-data.repository";
+import { ExpansaoCsvUseCase } from "../domain/usecases/expansao-csv.usecase";
+import { ExpansaoDataImplementationRepository } from "./repositories/expansao-data.implementation.respository";
 
 const municipiosGeoDataUseCaseFactory = (
     municipioRepository: MunicipioGeoDataRepository
@@ -23,6 +26,16 @@ const geoDataUseCaseProvider = {
     provide: GeoDataUseCase,
     useFactory: geoDataFactory,
     deps: [GeoDataRepository],
+};
+
+const expansaoCsvUseCaseFactory = (
+    expansaoRepository: ExpansaoDataRepository
+) => new ExpansaoCsvUseCase(expansaoRepository);
+
+const expansaoDataUseCaseProvider = {
+    provide: ExpansaoCsvUseCase,
+    useFactory: expansaoCsvUseCaseFactory,
+    deps:[ExpansaoDataRepository]
 };
 
 export const municipiosPolygnonUseCaseProvider = {
@@ -52,6 +65,11 @@ export const municipiosCSVUseCaseProvider = {
             provide: GeoDataRepository,
             useClass: GeoDataImplementationRepository,
         },
+        expansaoDataUseCaseProvider,
+        {
+            provide: ExpansaoDataRepository,
+            useClass: ExpansaoDataImplementationRepository
+        }
     ],
 })
 export class MunicipiosDataModule {}

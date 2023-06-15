@@ -13,6 +13,7 @@ import { MessageService } from "primeng/api";
 import { MapStyleSilver } from "src/app/core/shared/utils/map-styles/map-styles.const";
 import { SpinnerMapMessageEnum } from "src/app/core/shared/utils/enums/spinner-map-messages.enum";
 import { TittleMapEnum } from "src/app/core/shared/utils/enums/tittle-map-enum";
+import { ExpansaoCsvUseCase } from "../../domain/usecases/expansao-csv.usecase";
 declare var google: any;
 
 @Component({
@@ -35,6 +36,7 @@ export class ExpansaoVendasComponent implements OnInit {
     tituloMapa: string = TittleMapEnum.EXPANSAO;
     tipoSpinner: SpinnerMapMessageEnum = SpinnerMapMessageEnum.EXPANSAO;
     constructor(
+        private expansaoCsvUseCase: ExpansaoCsvUseCase,
         private municipioPolygnonUseCase: MunicipioPolygnonUseCase,
         private municipiosCsvUseCase: MunicipiosCsvUseCase,
         private activatedRoute: ActivatedRoute,
@@ -141,18 +143,18 @@ export class ExpansaoVendasComponent implements OnInit {
     }
 
     private getMunicipios(): void {
-        this.municipiosCsvUseCase.execute(this.vendorFile).subscribe(
-            (result: Array<MunicipioModel>) => {
+        this.expansaoCsvUseCase.execute(this.vendorFile).subscribe({
+            next: (result: Array<MunicipioModel>) => {
                 this.fetchData(result);
             },
-            (error: any) => {
+            error: (error: any) => {
                 this.messageService.add({
                     severity: "error",
-                    summary: "Arquivo",
-                    detail: "Arquivo não localizado",
+                    summary: "Erro",
+                    detail: `Arquivo não localizado no endereço ${error.url}`,
                 });
-            }
-        );
+            },
+        });
     }
 
     private generatePolygnon(map: any): void {

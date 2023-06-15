@@ -154,18 +154,18 @@ export class VendasMunicipioComponent {
     }
 
     private getMunicipios(): void {
-        this.municipiosCsvUseCase.execute(this.vendorFile).subscribe(
-            (result: Array<MunicipioModel>) => {
+        this.municipiosCsvUseCase.execute(this.vendorFile).subscribe({
+            next: (result: Array<MunicipioModel>) => {
                 this.fetchData(result);
             },
-            (error: any) => {
+            error: (error: any) => {
                 this.messageService.add({
                     severity: "error",
-                    summary: "Arquivo",
-                    detail: "Arquivo não localizado",
+                    summary: "Erro",
+                    detail: `Arquivo não localizado no endereço ${error.url}`,
                 });
-            }
-        );
+            },
+        });
     }
 
     private generatePolygnon(map: any): void {

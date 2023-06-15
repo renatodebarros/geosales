@@ -3,7 +3,7 @@
     [hideTransitionOptions]="'0ms'"
 ></p-messages>
 <div class="grid flex align-items-center">
-    <div class="col-12">
+    <div class="col-12" *ngIf="previsaoData.length > 0">
         <div class="col-12 bg-blue-500 p-3 border-round-md">
             <h1 class="text-bold text-white mt-2 text-2xl">
                 Vendedor: {{ nomeVendedor }}
@@ -11,7 +11,6 @@
         </div>
         <div class="mt-3">
             <p-accordion
-                *ngIf="previsaoData.length > 0"
                 [multiple]="true"
                 class="p-accordion-blue text-bold"
                 iconPos="start"

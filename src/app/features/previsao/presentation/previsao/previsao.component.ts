@@ -73,8 +73,17 @@ export class PrevisaoComponent implements OnInit {
                     this.setPlaces();
                 })
             )
-            .subscribe((result: Array<PrevisaoModel>) => {
-                this.previsaoData = result;
+            .subscribe({
+                next: (result: Array<PrevisaoModel>) => {
+                    this.previsaoData = result;
+                },
+                error: (error: any) => {
+                    this.messageService.add({
+                        severity: "error",
+                        summary: "Erro",
+                        detail: `Arquivo não localizado no endereço ${error.url}`,
+                    });
+                },
             });
     }
 

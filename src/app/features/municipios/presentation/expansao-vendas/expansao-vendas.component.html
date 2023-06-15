@@ -3,18 +3,14 @@
     [hideTransitionOptions]="'0ms'"
 ></p-messages>
 <div class="grid flex align-items-center">
-    <div class="col-12">
+    <div class="col-12" *ngIf="municipios.length > 0">
         <div class="col-12 bg-blue-500 p-3 border-round-md">
             <h1 class="text-bold text-white mt-2 text-2xl">
                 Vendedor: {{ nomeVendedor }}
             </h1>
         </div>
         <div class="mt-3">
-            <p-accordion
-                *ngIf="municipios.length > 0"
-                [multiple]="true"
-                class="p-accordion-blue"
-            >
+            <p-accordion [multiple]="true" class="p-accordion-blue">
                 <p-accordionTab [selected]="true">
                     <p-header>
                         <h1 class="text-bold text-white text-xl mt-2">
