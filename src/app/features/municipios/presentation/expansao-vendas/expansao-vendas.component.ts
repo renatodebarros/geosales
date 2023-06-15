@@ -11,6 +11,8 @@ import { MapOptionsConfig } from "src/app/core/shared/utils/map-options-config";
 import { distinct, from } from "rxjs";
 import { MessageService } from "primeng/api";
 import { MapStyleSilver } from "src/app/core/shared/utils/map-styles/map-styles.const";
+import { SpinnerMapMessageEnum } from "src/app/core/shared/utils/enums/spinner-map-messages.enum";
+import { TittleMapEnum } from "src/app/core/shared/utils/enums/tittle-map-enum";
 declare var google: any;
 
 @Component({
@@ -30,7 +32,8 @@ export class ExpansaoVendasComponent implements OnInit {
     options: any;
     overlays: any;
     titulo: string = null;
-    tituloMapa: string = "MAPA EXPLORATÓRIO DE VENDAS - EXPANSÃO";
+    tituloMapa: string = TittleMapEnum.EXPANSAO;
+    tipoSpinner: SpinnerMapMessageEnum = SpinnerMapMessageEnum.EXPANSAO;
     constructor(
         private municipioPolygnonUseCase: MunicipioPolygnonUseCase,
         private municipiosCsvUseCase: MunicipiosCsvUseCase,
@@ -133,6 +136,7 @@ export class ExpansaoVendasComponent implements OnInit {
             });
 
             map.fitBounds(bounds);
+            map.panToBounds(bounds);
         }
     }
 

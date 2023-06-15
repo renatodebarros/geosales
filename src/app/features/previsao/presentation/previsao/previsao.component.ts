@@ -18,6 +18,8 @@ import {
 } from "src/app/core/shared/utils/domain/model/google-geodata.model";
 import { StatusColorPipe } from "src/app/core/shared/utils/pipes/status-color.pipe";
 import { GeoDataUseCase } from "src/app/core/shared/utils/domain/geodata.usecase";
+import { TittleMapEnum } from "src/app/core/shared/utils/enums/tittle-map-enum";
+import { SpinnerMapMessageEnum } from "src/app/core/shared/utils/enums/spinner-map-messages.enum";
 
 declare var google: any;
 @Component({
@@ -39,11 +41,9 @@ export class PrevisaoComponent implements OnInit {
     polylines: Array<any> = new Array<any>();
     previsaoData: Array<PrevisaoModel> = new Array<PrevisaoModel>();
     resumo: Array<RollupModel>;
-    strokeColor: string = "#FF0000";
-    strokeOpacity: number = 8.5;
-    strokeWeight: number = 1.5;
     titulo: string = "TOTAL POR STATUS";
-    tituloMapa: string = "MAPA EXPLORATÓRIO DE VENDAS - PREVISÃO";
+    tituloMapa: string = TittleMapEnum.PREVISAO;
+    tipoSpinner: SpinnerMapMessageEnum = SpinnerMapMessageEnum.PREVISAO;
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -225,7 +225,6 @@ export class PrevisaoComponent implements OnInit {
 
             polyline.setMap(map);
             map.fitBounds(bounds);
-            this.setStyle(map);
         };
 
         // Send requests to service to get route (for stations count <= 25 only one request will be sent)
@@ -304,10 +303,11 @@ export class PrevisaoComponent implements OnInit {
     setMap(event: any): void {
         this.carregando = true;
         this.map = event.map;
-        this.setStyle(event.map);
+
         this.setStyles(event);
         setTimeout(() => {
             this.generateRoutes(event.map);
         }, 6000);
+        this.setStyle(event.map);
     }
 }

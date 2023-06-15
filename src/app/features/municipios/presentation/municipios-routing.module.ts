@@ -13,7 +13,7 @@ const routes: Routes = [
         component: ExpansaoVendasComponent,
     },
     {
-        path: "vendas/:id",
+        path: "localizacao/:id",
         component: VendasMunicipioComponent,
     },
 ];

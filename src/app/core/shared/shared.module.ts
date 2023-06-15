@@ -61,9 +61,15 @@ import { VirtualScrollerModule } from "primeng/virtualscroller";
 import { MessageService } from "primeng/api";
 import { StatusDescriptionPipe } from "./utils/pipes/status-description.pipe";
 import { StatusColorPipe } from "./utils/pipes/status-color.pipe";
+import { SpinnerMapComponent } from "./components/spinner-map/spinner-map.component";
 
 @NgModule({
-    declarations: [HeaderComponent, StatusDescriptionPipe, StatusColorPipe],
+    declarations: [
+        HeaderComponent,
+        StatusDescriptionPipe,
+        StatusColorPipe,
+        SpinnerMapComponent,
+    ],
     imports: [
         CommonModule,
         FormsModule,
@@ -183,6 +189,7 @@ import { StatusColorPipe } from "./utils/pipes/status-color.pipe";
         HeaderComponent,
         StatusDescriptionPipe,
         StatusColorPipe,
+        SpinnerMapComponent,
     ],
 })
 export class SharedModule {}

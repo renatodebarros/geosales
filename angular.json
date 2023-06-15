@@ -28,7 +28,8 @@
                         "styles": ["src/styles.scss"],
                         "scripts": [
                             "node_modules/prismjs/prism.js",
-                            "node_modules/prismjs/components/prism-typescript.js"
+                            "node_modules/prismjs/components/prism-typescript.js",
+                            "node_modules/js-map-label/src/maplabel-compiled.js"
                         ]
                     },
                     "configurations": {

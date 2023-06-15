@@ -2,36 +2,54 @@
     [showTransitionOptions]="'0ms'"
     [hideTransitionOptions]="'0ms'"
 ></p-messages>
-<div class="grid">
-    <div class="col-12"></div>
-    <div class="col-12 bg-blue-500 mb-5">
-        <label class="text-bold text-white">Vendedor: {{ nomeVendedor }}</label>
-    </div>
+<div class="grid flex align-items-center">
     <div class="col-12">
-        <p-accordion
-            *ngIf="sistematicaData.length > 0"
-            [multiple]="true"
-            class="p-accordion-blue text-bold"
-            iconPos="start"
-        >
-            <p-accordionTab [selected]="true">
-                <p-header>
-                    <span class="text-white text-2xl">{{ titulo }}</span>
-                </p-header>
-                <p-dataView
-                    [value]="resumo"
-                    [layout]="dataviewLayout"
-                    emptyMessage="Nenhum registro encontrado"
-                    [rows]="5"
-                    [paginator]="false"
-                >
-                    <ng-template let-status pTemplate="listItem">
-                        <div class="col-1">
+        <div class="col-12 bg-blue-500 p-3 border-round-md">
+            <h1 class="text-bold text-white mt-2 text-2xl">
+                Vendedor: {{ nomeVendedor }}
+            </h1>
+        </div>
+        <div class="mt-3">
+            <p-accordion
+                *ngIf="sistematicaData.length > 0"
+                [multiple]="true"
+                class="p-accordion-blue text-bold"
+                iconPos="start"
+            >
+                <p-accordionTab [selected]="true">
+                    <p-header>
+                        <h1 class="text-white text-bold text-xl mt-2">
+                            {{ titulo }}
+                        </h1>
+                    </p-header>
+                    <p-dataView
+                        [value]="resumo"
+                        [layout]="dataviewLayout"
+                        emptyMessage="Nenhum registro encontrado"
+                        [rows]="5"
+                        [paginator]="false"
+                    >
+                        <ng-template let-status pTemplate="listItem">
+                            <div class="col-1">
+                                <i
+                                    class="material-icons"
+                                    [ngStyle]="{
+                                        color: statusColor.transform(status.key)
+                                    }"
+                                    >place</i
+                                >
+                                <div style="padding: 0.5em" class="col-1">
+                                    <strong
+                                        >{{ status.key }} -
+                                        {{ status.value | number }}</strong
+                                    >
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template let-status pTemplate="gridItem">
                             <i
                                 class="material-icons"
-                                [ngStyle]="{
-                                    color: statusColor.transform(status.key)
-                                }"
+                                [ngStyle]="{ color: status.key | statusColor }"
                                 >place</i
                             >
                             <div style="padding: 0.5em" class="col-1">
@@ -40,54 +58,30 @@
                                     {{ status.value | number }}</strong
                                 >
                             </div>
-                        </div>
-                    </ng-template>
-                    <ng-template let-status pTemplate="gridItem">
-                        <i
-                            class="material-icons"
-                            [ngStyle]="{ color: status.key | statusColor }"
-                            >place</i
-                        >
-                        <div style="padding: 0.5em" class="col-1">
-                            <strong
-                                >{{ status.key }} -
-                                {{ status.value | number }}</strong
-                            >
-                        </div>
-                    </ng-template>
-                </p-dataView>
-            </p-accordionTab>
-            <p-accordionTab [selected]="true">
-                <p-header>
-                    <span class="text-white text-2xl">{{ tituloMapa }}</span>
-                </p-header>
-                <p-panel>
-                    <div
-                        *ngIf="carregando"
-                        class="grid flex align-items-center justify-content-center"
-                    >
-                        <div
-                            class="col-12 flex align-items-center justify-content-center"
-                        >
-                            <span
-                                class="scalein animation-duration-1000 animation-iteration-infinite text-center text-2xl text-bold"
-                                >Aguarde carregegando mapa de
-                                sistemática...</span
-                            >
-                        </div>
-                        <div class="col-12">
-                            <p-progressBar mode="indeterminate"></p-progressBar>
-                        </div>
-                    </div>
-                    <p-gmap
-                        #gmap
-                        [options]="options"
-                        [overlays]="overlays"
-                        [style]="{ width: '800', height: '500px' }"
-                        (onMapReady)="setMap($event)"
-                    ></p-gmap>
-                </p-panel>
-            </p-accordionTab>
-        </p-accordion>
+                        </ng-template>
+                    </p-dataView>
+                </p-accordionTab>
+                <p-accordionTab [selected]="true">
+                    <p-header>
+                        <h1 class="text-white text-bold text-xl mt-2">
+                            {{ tituloMapa }}
+                        </h1>
+                    </p-header>
+                    <p-panel>
+                        <app-spinner-map
+                            [carregando]="carregando"
+                            [tipo]="tipoSpinner"
+                        ></app-spinner-map>
+                        <p-gmap
+                            #gmap
+                            [options]="options"
+                            [overlays]="overlays"
+                            [style]="{ width: '800', height: '500px' }"
+                            (onMapReady)="setMap($event)"
+                        ></p-gmap>
+                    </p-panel>
+                </p-accordionTab>
+            </p-accordion>
+        </div>
     </div>
 </div>

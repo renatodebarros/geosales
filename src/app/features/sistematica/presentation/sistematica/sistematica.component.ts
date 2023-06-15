@@ -15,6 +15,8 @@ import {
     MapStyleSilver,
 } from "src/app/core/shared/utils/map-styles/map-styles.const";
 import { InfoWindowDataSource } from "../../data/data-sources/infowindow-content.datasource";
+import { TittleMapEnum } from "src/app/core/shared/utils/enums/tittle-map-enum";
+import { SpinnerMapMessageEnum } from "src/app/core/shared/utils/enums/spinner-map-messages.enum";
 
 declare var google: any;
 @Component({
@@ -35,7 +37,8 @@ export class SistematicaComponent implements OnInit {
     overlays: Array<any> = new Array<any>();
     sistematicaData: Array<SistematicaModel> = new Array<SistematicaModel>();
     titulo: string = "TOTAL POR STATUS";
-    tituloMapa: string = "MAPA EXPLORATÓRIO DE VENDAS - SISTEMÁTICA";
+    tituloMapa: string = TittleMapEnum.SISTEMATICA;
+    tipoSpinner: SpinnerMapMessageEnum = SpinnerMapMessageEnum.SISTEMATICA;
 
     constructor(
         private activatedRoute: ActivatedRoute,

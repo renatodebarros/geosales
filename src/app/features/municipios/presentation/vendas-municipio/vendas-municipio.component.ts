@@ -14,6 +14,10 @@ import {
     MapStyleApple,
     MapStyleSilver,
 } from "src/app/core/shared/utils/map-styles/map-styles.const";
+import { TittleMapEnum } from "src/app/core/shared/utils/enums/tittle-map-enum";
+import { SpinnerMapMessageEnum } from "src/app/core/shared/utils/enums/spinner-map-messages.enum";
+import { GoogleGeoDataModel } from "src/app/core/shared/utils/domain/model/google-geodata.model";
+import * as d3 from "d3";
 declare var google: any;
 
 @Component({
@@ -24,6 +28,7 @@ declare var google: any;
 export class VendasMunicipioComponent {
     private vendorFile: string;
 
+    bounds: any;
     carregando: boolean = false;
     dataviewLayout: string = "grid";
     estados: Array<any> = [];
@@ -31,9 +36,10 @@ export class VendasMunicipioComponent {
     municipios: Array<MunicipioModel> = [];
     nomeVendedor: string;
     options: any;
-    overlays: any;
+    overlays: Array<any> = new Array<any>();
     titulo: string = null;
-    tituloMapa: string = "MAPA EXPLORATÓRIO DE VENDAS - LOCALIZAÇÃO";
+    tituloMapa: string = TittleMapEnum.LOCALIZACAO;
+    tipoSpinner: SpinnerMapMessageEnum = SpinnerMapMessageEnum.LOCALIZACAO;
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -42,6 +48,7 @@ export class VendasMunicipioComponent {
         private municipiosCsvUseCase: MunicipiosCsvUseCase
     ) {
         this.options = MapOptionsConfig.get();
+        this.bounds = new google.maps.LatLngBounds();
         this.setVendorFile();
     }
 
@@ -109,13 +116,17 @@ export class VendasMunicipioComponent {
                                         hasSales: municipio.temVendedor,
                                     },
                                     geometry: {},
+                                    title: "TESTE",
                                 },
                             ],
                         };
 
                         geoJson.features[0].geometry = geo.geometry;
-
                         map.data.addGeoJson(geoJson);
+
+                        let coordinates: any = geo.geometry.coordinates.map(
+                            (v) => ({ lat: v[1], lng: v[0] })
+                        );
                         this.setStyle(map);
                         this.fitBound(map);
                     }
@@ -179,6 +190,44 @@ export class VendasMunicipioComponent {
             });
     }
 
+    private setMarker(index: number, lat: number, lng: number): any {
+        let marker = new google.maps.Marker({
+            position: { lat: lat, lng: lng + 0.001 },
+            draggable: true,
+            label: {
+                text: index.toString(),
+                color: "black",
+                textShadow: "2px 2px 2px #000000",
+                fontSize: "10px",
+            },
+            icon: {
+                url: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjyHQt+g8ABFsCIF75EPIAAAAASUVORK5CYII=",
+                scale: 15,
+            },
+
+            zIndex: +index,
+        });
+
+        this.bounds.extend(marker.getPosition());
+
+        this.overlays.push(marker);
+        this.map.fitBounds(this.bounds); // Map object used directly
+        this.map.panToBounds(this.bounds);
+    }
+
+    private setStyle(map: any): void {
+        map.data.setStyle(function (feature) {
+            let id: number = feature.getProperty("name");
+            return {
+                feature: "loc",
+                label: id,
+                title: id,
+                fillColor: "blue",
+                strokeWeight: 0.5,
+                fillOpacity: 0.15,
+            };
+        });
+    }
     setMap(event: any): void {
         this.carregando = true;
         this.setStyles(event);
@@ -187,19 +236,6 @@ export class VendasMunicipioComponent {
         }, 6000);
 
         this.map = event.map;
-    }
-
-    private setStyle(map: any): void {
-        map.data.setStyle(function (feature) {
-            let id: number = feature.getProperty("name");
-            return {
-                feature: "loc",
-                title: id,
-                fillColor: "blue",
-                strokeWeight: 0.5,
-                fillOpacity: 0.15,
-            };
-        });
     }
 
     setStyles(event): void {
