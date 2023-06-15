@@ -18,6 +18,7 @@ import { TittleMapEnum } from "src/app/core/shared/utils/enums/tittle-map-enum";
 import { SpinnerMapMessageEnum } from "src/app/core/shared/utils/enums/spinner-map-messages.enum";
 import { GoogleGeoDataModel } from "src/app/core/shared/utils/domain/model/google-geodata.model";
 import * as d3 from "d3";
+import { GeoDataUseCase } from "src/app/core/shared/utils/domain/geodata.usecase";
 declare var google: any;
 
 @Component({
@@ -44,6 +45,7 @@ export class VendasMunicipioComponent {
     constructor(
         private activatedRoute: ActivatedRoute,
         private messageService: MessageService,
+        private geoDataUseCase: GeoDataUseCase,
         private municipioPolygnonUseCase: MunicipioPolygnonUseCase,
         private municipiosCsvUseCase: MunicipiosCsvUseCase
     ) {
@@ -190,22 +192,41 @@ export class VendasMunicipioComponent {
             });
     }
 
-    private setMarker(index: number, lat: number, lng: number): any {
+    private setPlaces(): void {
+        this.municipios.forEach((item: MunicipioModel) => {
+            let address: string = `${item.nome}-${item.uf}`;
+            address = address.replace(/ /g, "+");
+
+            this.geoDataUseCase
+                .execute(address)
+                .subscribe((result: GoogleGeoDataModel) => {
+                    this.setMarker(item, result);
+                });
+        });
+        this.carregando = false;
+    }
+
+    private setMarker(item: MunicipioModel, geoData: GoogleGeoDataModel): any {
+        const lat: number = geoData.results[0].geometry.location.lat;
+        const lng: number = geoData.results[0].geometry.location.lng;
+
         let marker = new google.maps.Marker({
-            position: { lat: lat, lng: lng + 0.001 },
-            draggable: true,
+            position: { lat: lat, lng: lng },
             label: {
-                text: index.toString(),
-                color: "black",
-                textShadow: "2px 2px 2px #000000",
-                fontSize: "10px",
+                fillColor: "blue",
+                strokeWeight: 0.5,
+                fillOpacity: 0.15,
+                fontSize: "12px",
+                text: `${item.id}`,
             },
+            draggable: false,
+            animation: google.maps.Animation.DROP,
             icon: {
                 url: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjyHQt+g8ABFsCIF75EPIAAAAASUVORK5CYII=",
-                scale: 15,
+                scale: 1.5,
+                anchor: new google.maps.Point(12, 24),
             },
-
-            zIndex: +index,
+            zIndex: +item.id,
         });
 
         this.bounds.extend(marker.getPosition());
@@ -228,11 +249,13 @@ export class VendasMunicipioComponent {
             };
         });
     }
+
     setMap(event: any): void {
         this.carregando = true;
         this.setStyles(event);
         setTimeout(() => {
             this.generatePolygnon(event.map);
+            //TODO:this.setPlaces(); to be new feature
         }, 6000);
 
         this.map = event.map;

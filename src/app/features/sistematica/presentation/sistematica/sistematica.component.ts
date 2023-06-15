@@ -117,9 +117,10 @@ export class SistematicaComponent implements OnInit {
                 strokeColor: "#ffffff",
                 strokeWeight: 1,
                 scale: 1.5,
-                anchor: new google.maps.Point(12, 24),
+                anchor: new google.maps.Point(12, 20),
             },
             zIndex: +item.item,
+            optimized: true,
         });
 
         let infowindow = new google.maps.InfoWindow({

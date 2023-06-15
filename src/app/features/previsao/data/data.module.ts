@@ -19,7 +19,7 @@ const previsaoUseCaseProvider = {
 const geoDataFactory = (geoDataRepository: GeoDataRepository) =>
     new GeoDataUseCase(geoDataRepository);
 
-export const geoDataUseCaseProvider = {
+const geoDataUseCaseProvider = {
     provide: GeoDataUseCase,
     useFactory: geoDataFactory,
     deps: [GeoDataRepository],
